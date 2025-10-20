@@ -6,7 +6,7 @@ class ArrestsColumns(str, Enum):
     # APPREHENSION_COUNTY = "Apprehension County"  # (entirely missing)
     APPREHENSION_AOR = "Apprehension AOR"  # categorical. AOR: "Area of Responsibility"
     FINAL_PROGRAM = "Final Program"  # categorical. e.g., "ERO Criminal Area Program"
-    FINAL_PROGRAM_GROUP = "Final Program Group"  # categorial. e.g., ICE
+    # FINAL_PROGRAM_GROUP = "Final Program Group"  # categorial. e.g., ICE
     APPREHENSION_METHOD = "Apprehension Method"  # categorical 
     APPREHENSION_CRIMINALITY = "Apprehension Criminality"
     CASE_STATUS = "Case Status"

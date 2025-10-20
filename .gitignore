@@ -3,3 +3,6 @@ venv/*
 __pycache__/
 ~$*
 ice-data/
+proc_data/
+.ipynb_checkpoints/
+notebooks/.ipynb_checkpoints/

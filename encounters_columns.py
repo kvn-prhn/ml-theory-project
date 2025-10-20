@@ -1,0 +1,28 @@
+from enum import Enum
+
+class EncountersColumns(str, Enum):
+    EVENT_DATE = "Event Date"
+    RESPONSIBLE_AOR = "Responsible AOR"
+    RESPONSIBLE_SITE = "Responsible Site"
+    LEAD_EVENT_TYPE = "Lead Event Type"
+    LEAD_SOURCE = "Lead Source"
+    EVENT_TYPE = "Event Type"
+    FINAL_PROGRAM = "Final Program"
+    # FINAL_PROGRAM_GROUP = Final Program Group
+    ENCOUNTER_CRIMINALITY = "Encounter Criminality"
+    PROCESSING_DISPOSITION = "Processing Disposition"
+    CASE_STATUS = "Case Status"
+    CASE_CATEGORY = "Case Category"
+    DEPARTED_DATE = "Departed Date"
+    DEPARTURE_COUNTRY = "Departure Country"
+    FINAL_ORDER_YES_NO = "Final Order Yes No"
+    FINAL_ORDER_DATE = "Final Order Date"
+    # BIRTH_DATE = "Birth Date"
+    BIRTH_YEAR = "Birth Year"
+    CITIZENSHIP_COUNTRY = "Citizenship Country"
+    GENDER = "Gender"
+    EVENT_LANDMARK = "Event Landmark"
+    # ALIEN_FILE_NUMBER = "Alien File Number"
+    # EID_CASE_ID = "EID Case ID"
+    # EID_SUBJECT_ID = "EID Subject ID"
+    UNIQUE_IDENTIFIER = "Unique Identifier"
