@@ -2,6 +2,33 @@ from tables import Tables
 from enum import Enum, auto
 
 class Columns(Enum):
+    # encounters
+    EVENT_DATE = ("Event Date", Tables.ENCOUNTERS, "", False, False)
+    RESPONSIBLE_AOR = ("Responsible AOR", Tables.ENCOUNTERS, "", False, False)
+    RESPONSIBLE_SITE = ("Responsible Site", Tables.ENCOUNTERS, "", False, False)
+    LEAD_EVENT_TYPE = ("Lead Event Type", Tables.ENCOUNTERS, "", False, False)
+    LEAD_SOURCE = ("Lead Source", Tables.ENCOUNTERS, "", False, False)
+    EVENT_TYPE = ("Event Type", Tables.ENCOUNTERS, "", False, False)
+    FINAL_PROGRAM = ("Final Program", Tables.ENCOUNTERS, "", False, False)
+    FINAL_PROGRAM_GROUP = ("Final Program Group", Tables.ENCOUNTERS, "", True, False)
+    ENCOUNTER_CRIMINALITY = ("Encounter Criminality", Tables.ENCOUNTERS, "", False, False)
+    PROCESSING_DISPOSITION = ("Processing Disposition", Tables.ENCOUNTERS, "", False, False)
+    CASE_STATUS = ("Case Status", Tables.ENCOUNTERS, "", False, False)
+    CASE_CATEGORY = ("Case Category", Tables.ENCOUNTERS, "", False, False)
+    DEPARTED_DATE = ("Departed Date", Tables.ENCOUNTERS, "", False, False)
+    DEPARTURE_COUNTRY = ("Departure Country", Tables.ENCOUNTERS, "", False, False)
+    FINAL_ORDER_YES_NO = ("Final Order Yes No", Tables.ENCOUNTERS, "", False, False)
+    FINAL_ORDER_DATE = ("Final Order Date", Tables.ENCOUNTERS, "", False, False)
+    BIRTH_DATE = ("Birth Date", Tables.ENCOUNTERS, "", True, False)
+    BIRTH_YEAR = ("Birth Year", Tables.ENCOUNTERS, "", False, False)
+    CITIZENSHIP_COUNTRY = ("Citizenship Country", Tables.ENCOUNTERS, "", False, False)
+    GENDER = ("Gender", Tables.ENCOUNTERS, "", False, False)
+    EVENT_LANDMARK = ("Event Landmark", Tables.ENCOUNTERS, "", False, False)
+    ALIEN_FILE_NUMBER = ("Alien File Number", Tables.ENCOUNTERS, "", True, False)
+    EID_CASE_ID = ("EID Case ID", Tables.ENCOUNTERS, "", True, False)
+    EID_SUBJECT_ID = ("EID Subject ID", Tables.ENCOUNTERS, "", True, False)
+    UNIQUE_IDENTIFIER = ("Unique Identifier", Tables.ENCOUNTERS, "", False, False)
+
     # removals
     DEPARTED_DATE = ("Departed Date", Tables.REMOVALS, "", False, False)
     PORT_OF_DEPARTURE = ("Port of Departure", Tables.REMOVALS, "", False, False)
