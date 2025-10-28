@@ -2,7 +2,7 @@
 venv/*
 __pycache__/
 ~$*
-ice-data/
+ice_data/
 proc_data/
 .ipynb_checkpoints/
 notebooks/.ipynb_checkpoints/
