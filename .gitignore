@@ -7,3 +7,4 @@ proc_data/
 .ipynb_checkpoints/
 notebooks/.ipynb_checkpoints/
 workspace.ipynb
+.vscode/
