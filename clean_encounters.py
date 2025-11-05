@@ -61,7 +61,7 @@ def cleanEventLandmark(df):
     print("dropping 'Event Landmark' column")
     df.drop(columns='Event Landmark', axis=1, inplace=True)
 
-def cleanEncounters(df):
+def clean_encounters(df):
     print("="*40)
     print("Cleaning Encounters dataframe")
     cleanEventLandmark(df)
