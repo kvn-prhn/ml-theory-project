@@ -265,9 +265,7 @@ def clean_unique_identifier(df):
     print("Removed %d duplicate rows, keeping only most recent deportation per individual" % rows_removed)
     print("Dataframe now has %d rows" % df.shape[0])
 
-if __name__ == '__main__':
-    print("Loading removals data...")
-    df = pd.read_parquet('ice_data/proc_data/removals.parquet')
+def clean_removals(df):
     print("Initial dataframe shape: %d rows, %d columns" % (df.shape[0], df.shape[1]))
     clean_departed_date(df)
     clean_port_of_departure(df)
