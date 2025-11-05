@@ -3,6 +3,7 @@ import clean_encounters
 import clean_removals
 import clean_detainers
 import clean_arrests
+import clean_detentions
 import os
 
 """
@@ -23,23 +24,26 @@ if __name__ == "__main__":
     os.makedirs(OUTPUT_DIR, exist_ok=True)
 
     print("Cleaning Arrests data")
-    # arrests_df = pd.read_parquet(INPUT_DIR + ARRESTS_FILENAME)
-    # clean_arrests.clean_arrests(arrests_df)
-    # arrests_df.to_parquet(OUTPUT_DIR + ARRESTS_FILENAME, index=False)
+    arrests_df = pd.read_parquet(INPUT_DIR + ARRESTS_FILENAME)
+    clean_arrests.clean_arrests(arrests_df)
+    arrests_df.to_parquet(OUTPUT_DIR + ARRESTS_FILENAME, index=False)
 
     print("Cleaning Detainers Data")
-    # detainers_df = pd.read_parquet(INPUT_DIR + DETAINERS_FILENAME)
-    # clean_detainers.clean_detainers(detainers_df)
-    # detainers_df.to_parquet(OUTPUT_DIR + DETAINERS_FILENAME, index=False)
+    detainers_df = pd.read_parquet(INPUT_DIR + DETAINERS_FILENAME)
+    clean_detainers.clean_detainers(detainers_df)
+    detainers_df.to_parquet(OUTPUT_DIR + DETAINERS_FILENAME, index=False)
 
     print("Cleaning Detentions Data")
+    detentions_df = pd.read_parquet(INPUT_DIR + DETENTIONS_FILENAME)
+    clean_detentions.clean_detentions(detentions_df)
+    detentions_df.to_parquet(OUTPUT_DIR + DETENTIONS_FILENAME, index=False)
     
     print("Cleaning Encounters Data")
-    #encounters_df = pd.read_parquet(INPUT_DIR + ENCOUNTERS_FILENAME)
-    #clean_encounters.clean_encounters(encounters_df)
-    #encounters_df.to_parquet(OUTPUT_DIR + ENCOUNTERS_FILENAME, index=False)
+    encounters_df = pd.read_parquet(INPUT_DIR + ENCOUNTERS_FILENAME)
+    clean_encounters.clean_encounters(encounters_df)
+    encounters_df.to_parquet(OUTPUT_DIR + ENCOUNTERS_FILENAME, index=False)
 
     print("Cleaning Removals Data")
-    #removals_df = pd.read_parquet(INPUT_DIR + REMOVALS_FILENAME)
-    #clean_removals.clean_removals(removals_df)
-    #removals_df.to_parquet(OUTPUT_DIR + REMOVALS_FILENAME, index=False)
+    removals_df = pd.read_parquet(INPUT_DIR + REMOVALS_FILENAME)
+    clean_removals.clean_removals(removals_df)
+    removals_df.to_parquet(OUTPUT_DIR + REMOVALS_FILENAME, index=False)
