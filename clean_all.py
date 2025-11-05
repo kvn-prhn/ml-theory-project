@@ -2,6 +2,7 @@ import pandas as pd
 import clean_encounters
 import clean_removals
 import clean_detainers
+import clean_arrests
 import os
 
 """
@@ -22,11 +23,14 @@ if __name__ == "__main__":
     os.makedirs(OUTPUT_DIR, exist_ok=True)
 
     print("Cleaning Arrests data")
+    # arrests_df = pd.read_parquet(INPUT_DIR + ARRESTS_FILENAME)
+    # clean_arrests.clean_arrests(arrests_df)
+    # arrests_df.to_parquet(OUTPUT_DIR + ARRESTS_FILENAME, index=False)
 
     print("Cleaning Detainers Data")
-    detainers_df = pd.read_parquet(INPUT_DIR + DETAINERS_FILENAME)
-    clean_detainers.clean_detainers(detainers_df)
-    detainers_df.to_parquet(OUTPUT_DIR + DETAINERS_FILENAME, index=False)
+    # detainers_df = pd.read_parquet(INPUT_DIR + DETAINERS_FILENAME)
+    # clean_detainers.clean_detainers(detainers_df)
+    # detainers_df.to_parquet(OUTPUT_DIR + DETAINERS_FILENAME, index=False)
 
     print("Cleaning Detentions Data")
     
