@@ -2,6 +2,11 @@
 #show link: underline
 
 /*
+TODO
+- Come up with list of questions
+- write "derivation" script
+  - detainers[entry date] - removals[departure date]
+
 For meeting 11/5/25
 - I noticed that in detainers we remove any columns with >75% missing data. In removals for example only 20% of the individuals are "removed" (deported) so it is expected that most of the data is missing. Want to confirm we aren't missing anything like that with a blanket remove >75%
 - Do other data sets have repeat unique IDs? if so, we need to decide how to collapse them. What i did for removals was to combine them and create a new column with the count. I keep only the most recent deportation. and the num deportations is actually a useful thing.
@@ -35,11 +40,6 @@ Notes:
 
 by "subset" I mean if the other columns value is non-null this one is too
 
-= Cleaning process
-
-questions:
-- The encounters dataset has 1,193,516 rows, but only 835,847 individuals (unique IDs). How should we join across tables?
-
 = Examples of Bad Data
 
 The unique ID `e324d5dceb0f735544c0757b983433458ef7b707` is the most common in the encounters dataset, appearing 45 times. In each occurence, the birthyear, citizenship, and gender are the same. However, the encounter criminality is inconsistent:
@@ -52,3 +52,5 @@ Encounter Criminality
 ```
 
 This makes me have less faith in the validity of this column.
+
+= Prediction questions

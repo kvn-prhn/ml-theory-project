@@ -222,3 +222,13 @@ def clean_detentions(d):
     # that is more general than the specific MSCs
 
 
+def combine_duplicate_ids(df):
+    initial_rows = df.shape[0]
+    arrest_counts = df['Unique Identifier'].value_counts()
+    df['Num Detentions'] = df['Unique Identifier'].map(arrest_counts)
+    df.sort_values('Stay Book In Date Time', ascending=False, inplace=True)
+    df.drop_duplicates(subset='Unique Identifier', keep='first', inplace=True)
+    df.reset_index(drop=True, inplace=True)
+    rows_removed = initial_rows - df.shape[0]
+    print("Removed %d duplicate rows, keeping only most recent detention per individual" % rows_removed)
+    print("Dataframe now has %d rows" % df.shape[0])

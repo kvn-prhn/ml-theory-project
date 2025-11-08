@@ -173,6 +173,16 @@ def clean_arrests(d):
     d[ArrestsColumns.APPREHENSION_SITE_LANDMARK.column_name] = d['repl_val']
     d = d.drop('repl_val', axis = 1).copy()
 
+def combine_duplicate_ids(df):
+    initial_rows = df.shape[0]
+    arrest_counts = df['Unique Identifier'].value_counts()
+    df['Num Arrests'] = df['Unique Identifier'].map(arrest_counts)
+    df.sort_values('Apprehension Date', ascending=False, inplace=True)
+    df.drop_duplicates(subset='Unique Identifier', keep='first', inplace=True)
+    df.reset_index(drop=True, inplace=True)
+    rows_removed = initial_rows - df.shape[0]
+    print("Removed %d duplicate rows, keeping only most recent arrest per individual" % rows_removed)
+    print("Dataframe now has %d rows" % df.shape[0])
 
 
 

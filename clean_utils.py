@@ -1,9 +1,15 @@
+def summarize_data_frame(df):
+    print("%d rows" % df.shape[0])
+    print("%d columns" % df.shape[1])
+    print(df.info())
+
 def summarize_categorical_column(column):
     print("Column: %s" % column.name)
     missingPct = (column.isnull().sum() / len(column)) * 100
     print("column type: %s" % column.dtype)
     print("%f%% missing values" % missingPct)
     print("%d unique values" % column.unique().size)
+    print("%d non-missing values" % (len(column) - column.isnull().sum()))
     print(column.value_counts())
 
 def summarize_ordinal_column(column):

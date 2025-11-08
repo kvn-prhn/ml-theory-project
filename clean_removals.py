@@ -238,7 +238,7 @@ def clean_latest_person_departed_date(df):
     # latest_person_departed_date = df['Latest Person Departed Date']
     # clean_utils.summarize_ordinal_column(latest_person_departed_date)
 
-def clean_unique_identifier(df):
+def combine_duplicate_ids(df):
     """
     Keep only the latest entry for each unique identifier. If an individual
     appears multiple times, it means they were deported multiple times, so
@@ -296,5 +296,5 @@ def clean_removals(df):
     clean_final_order_date(df)
     clean_prior_deport_yes_no(df)
     clean_latest_person_departed_date(df)
-    clean_unique_identifier(df)
+
     print("Final dataframe shape: %d rows, %d columns" % (df.shape[0], df.shape[1]))

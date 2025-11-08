@@ -6,15 +6,21 @@ explanation and assumptions behind the cleaning
 import pandas as pd
 import clean_utils
 
+START_DATE = pd.to_datetime('2023-09-01 00:00:00')
+
 def cleanEventDate(df):
     print("="*40)
     print("Processing 'Event Date' column")
     event_dates = df['Event Date']
-    print("before cleaning, %f%% missing values" % (100 * event_dates.isnull().sum() / df.shape[0]))
+    rows_before = df.shape[0]
     valid_dates_mask = (pd.to_datetime('2023-9-1') <= event_dates) & (event_dates <= pd.to_datetime('2025-7-31'))
-    print("marking %d invalid dates as null" % (df.shape[0] - valid_dates_mask.sum()))
-    df.loc[~valid_dates_mask, 'Event Date'] = pd.NaT
-    print("after cleaning, %f%% missing values" % (100 * event_dates.isnull().sum() / df.shape[0]))
+    invalid_count = (df.shape[0] - valid_dates_mask.sum())
+    print("dropping %d rows with invalid dates" % invalid_count)
+    df.drop(df[~valid_dates_mask].index, inplace=True)
+    df.reset_index(drop=True, inplace=True)
+    rows_after = df.shape[0]
+    print("Rows before drop: %d" % rows_before)
+    print("Rows after drop: %d" % rows_after)
 
 def cleanResponsibleSite(df):
     print("="*40)
@@ -42,6 +48,11 @@ def cleanLeadSource(df):
     print("dropping Lead Source column")
     df.drop(columns='Lead Source', axis=1, inplace=True)
 
+def clean_lead_event_type(df):
+    print("="*40)
+    print("dropping 'Lead Event Type' column")
+    df.drop(columns='Lead Event Type', axis=1, inplace=True)
+
 def cleanFinalProgram(df):
     print("="*40)
     print("cleaning 'Final Program' column")
@@ -61,6 +72,31 @@ def cleanEventLandmark(df):
     print("dropping 'Event Landmark' column")
     df.drop(columns='Event Landmark', axis=1, inplace=True)
 
+def create_deported_column(df):
+    print("Creating 'Deported' column")
+    df['Deported'] = df['Departed Date'].notna()
+
+def clean_birth_year(df):
+    print("="*40)
+    print("Converting 'Birth Year' column to integer type")
+    df['Birth Year'] = df['Birth Year'].astype('Int16')
+
+def clean_responsible_aor(df):
+    print("="*40)
+    print("Cleaning 'Responsible AOR' column")
+    rows_before = df.shape[0]
+    df.dropna(subset=['Responsible AOR'], inplace=True)
+    df.reset_index(drop=True, inplace=True)
+    rows_after = df.shape[0]
+    print("Rows before drop: %d" % rows_before)
+    print("Rows after drop: %d" % rows_after)
+    print("Dropped %d rows with missing 'Responsible AOR'" % (rows_before - rows_after))
+
+def create_days_after_start(df):
+    print("="*40)
+    print("Creating 'Days After Start' column")
+    df['Days After Start'] = (df['Event Date'] - START_DATE).dt.days.astype('int32')
+
 def clean_encounters(df):
     print("="*40)
     print("Cleaning Encounters dataframe")
@@ -70,3 +106,19 @@ def clean_encounters(df):
     cleanFinalProgram(df)
     cleanCitizenshipCountry(df)
     cleanResponsibleSite(df)
+    create_deported_column(df)
+    clean_birth_year(df)
+    clean_responsible_aor(df)
+    clean_lead_event_type(df)
+    create_days_after_start(df)
+
+def combine_duplicate_ids(df):
+    initial_rows = df.shape[0]
+    arrest_counts = df['Unique Identifier'].value_counts()
+    df['Num Encounters'] = df['Unique Identifier'].map(arrest_counts)
+    df.sort_values('Event Date', ascending=False, inplace=True)
+    df.drop_duplicates(subset='Unique Identifier', keep='first', inplace=True)
+    df.reset_index(drop=True, inplace=True)
+    rows_removed = initial_rows - df.shape[0]
+    print("Removed %d duplicate rows, keeping only most recent encounter per individual" % rows_removed)
+    print("Dataframe now has %d rows" % df.shape[0])

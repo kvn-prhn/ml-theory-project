@@ -172,16 +172,30 @@ def clean_detainers(detainers_df_clean):
 
     detainers_df_clean['Total Sentence Days'] = detainers_df_clean['MSC Sentence Years'] * 365 + detainers_df_clean['MSC Sentence Months'] * 30 + detainers_df_clean['MSC Sentence Days']
 
-    #Remove columns with more than 75% missing
-    print("%d columns before removing those with >75%% missing" % detainers_df_clean.shape[1])
-    missing_fraction = detainers_df_clean.isnull().mean()
-    cols_to_drop = missing_fraction[missing_fraction > 0.75].index
-    detainers_df_clean.drop(columns=cols_to_drop, inplace=True)
-    print("%d columns after removing those with >75%% missing" % detainers_df_clean.shape[1])
+    # laird: changed this to not remove a few columns, namely entry date
+    # I've just copied all the rows with >75% missing data here
+    detainers_df_clean.drop('Federal Interest Yes No', axis=1, inplace=True)
+    detainers_df_clean.drop('Visa Yes No', axis=1, inplace=True)
+    detainers_df_clean.drop('Unlawful Entry Yes No', axis=1, inplace=True)
+    detainers_df_clean.drop('Unlawful Attempt Yes No', axis=1, inplace=True)
+    detainers_df_clean.drop('Order to Show Cause Served Date', axis=1, inplace=True)
+    detainers_df_clean.drop('Other Removal Reason', axis=1, inplace=True)
+    detainers_df_clean.drop('Immigration Fraud Yes No', axis=1, inplace=True)
+    detainers_df_clean.drop('Other Removal Reason Yes No', axis=1, inplace=True)
+    detainers_df_clean.drop('Illegal Entry Yes No', axis=1, inplace=True)
+    detainers_df_clean.drop('Illegal Reentry Yes No', axis=1, inplace=True)
+    detainers_df_clean.drop('Significant Risk Yes No', axis=1, inplace=True)
+    detainers_df_clean.drop('Criminal Street Gang Yes No', axis=1, inplace=True)
+    # detainers_df_clean.drop('Entry Date', axis=1, inplace=True)
+    detainers_df_clean.drop('Multiple Prior MISD Yes No', axis=1, inplace=True)
+    detainers_df_clean.drop('Time of Apprehension Case Category', axis=1, inplace=True)
+    detainers_df_clean.drop('Aggravated Felony Yes No', axis=1, inplace=True)
+    detainers_df_clean.drop('Prior Felony Yes No', axis=1, inplace=True)
+    detainers_df_clean.drop('Violent Misdemeanor Yes No', axis=1, inplace=True)
 
-    critical_field = ['Unique Identifier']
-    detainers_df_clean.dropna(subset=critical_field, inplace=True)
-    detainers_df_clean.drop_duplicates(inplace=True)
+    # critical_field = ['Unique Identifier']
+    # detainers_df_clean.dropna(subset=critical_field, inplace=True)
+    # detainers_df_clean.drop_duplicates(inplace=True)
 
     # it = iter(detainers_df_clean.columns)
     # col = next(it)
@@ -192,3 +206,13 @@ def clean_detainers(detainers_df_clean):
     # print(detainers_df_clean[col].value_counts())
 
 
+def combine_duplicate_ids(df):
+    initial_rows = df.shape[0]
+    arrest_counts = df['Unique Identifier'].value_counts()
+    df['Num Detainers'] = df['Unique Identifier'].map(arrest_counts)
+    df.sort_values('Detainer Prepare Date', ascending=False, inplace=True)
+    df.drop_duplicates(subset='Unique Identifier', keep='first', inplace=True)
+    df.reset_index(drop=True, inplace=True)
+    rows_removed = initial_rows - df.shape[0]
+    print("Removed %d duplicate rows, keeping only most recent detainer per individual" % rows_removed)
+    print("Dataframe now has %d rows" % df.shape[0])
