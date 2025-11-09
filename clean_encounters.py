@@ -72,6 +72,16 @@ def cleanEventLandmark(df):
     print("dropping 'Event Landmark' column")
     df.drop(columns='Event Landmark', axis=1, inplace=True)
 
+def clean_responsible_site(df):
+    print("="*40)
+    print("dropping 'Responsible Site' column. According to the cookbook: \n'We believe that this typically indicates the docket control office, \nwhich is a sub-office within an area of responsibility; we do not know \nmore details. Some discussion of docket control offices is available \nhere: https://www.ice.gov/doclib/foia/dro_policy_memos/09684drofieldpolicymanual.pdf.'.\n A lot of this information seems to be contained in the 'Responsible AOR' column")
+    df.drop(columns='Responsible Site', axis=1, inplace=True)
+
+def clean_processing_disposition(df):
+    print("="*40)
+    print("dropping 'Processing Disposition' column. According to the \ncookbook, 'We are unsure how to understand the values in this field, \nespecially in relation to case category.'")
+    df.drop(columns='Processing Disposition', axis=1, inplace=True)
+
 def create_deported_column(df):
     print("Creating 'Deported' column")
     df['Deported'] = df['Departed Date'].notna()
@@ -97,6 +107,18 @@ def create_days_after_start(df):
     print("Creating 'Days After Start' column")
     df['Days After Start'] = (df['Event Date'] - START_DATE).dt.days.astype('int32')
 
+def clean_gender(df):
+    print("="*40)
+    print("Cleaning 'Gender' Column")
+    rows_before = df.shape[0]
+    df.drop(df[df['Gender'] == 'Unknown'].index, inplace=True)
+    df.reset_index(drop=True, inplace=True)
+    rows_after = df.shape[0]
+    rows_removed = rows_before - rows_after
+    print("Rows before drop: %d" % rows_before)
+    print("Rows after drop: %d" % rows_after)
+    print("Removed %d rows with 'Unknown' gender" % rows_removed)
+
 def clean_encounters(df):
     print("="*40)
     print("Cleaning Encounters dataframe")
@@ -111,6 +133,9 @@ def clean_encounters(df):
     clean_responsible_aor(df)
     clean_lead_event_type(df)
     create_days_after_start(df)
+    clean_processing_disposition(df)
+    clean_responsible_site(df)
+    clean_gender(df)
 
 def combine_duplicate_ids(df):
     initial_rows = df.shape[0]
