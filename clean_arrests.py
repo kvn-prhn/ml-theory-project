@@ -90,6 +90,8 @@ def clean_arrests(d):
 
     d[ArrestsColumns.APPREHENSION_METHOD.column_name].value_counts()
 
+    d['Jail Apprehension'] = d[ArrestsColumns.APPREHENSION_METHOD.column_name].isin(['CAP Federal Incarceration', 'CAP Local Incarceration', 'CAP State Incarceration'])
+
     missing_percent_print(d, ArrestsColumns.APPREHENSION_CRIMINALITY.column_name)
 
     d[ArrestsColumns.APPREHENSION_CRIMINALITY.column_name].value_counts()
