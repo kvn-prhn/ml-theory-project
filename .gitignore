@@ -10,3 +10,4 @@ notebooks/.ipynb_checkpoints/
 workspace.ipynb
 .vscode/
 states.csv
+out/

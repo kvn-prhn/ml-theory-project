@@ -3,8 +3,9 @@
 
 /*
 TODO
+- cut category sizes down to ~10. otherwise it takes too long
 - Come up with list of questions
-- write "derivation" script
+- create derived variables
   - detainers[entry date] - removals[departure date]
 
 For meeting 11/5/25
@@ -52,5 +53,10 @@ Encounter Criminality
 ```
 
 This makes me have less faith in the validity of this column.
+
+= Observations
+
+- One strong predictor of whether an encounter leads to a deportation is the encounter date, and if that date is right before the end of the data collection period. i.e., they were encountered right before the last day of data collection.
+- Trying to create a dummy variable for each of 100s of categorical varibles made training a basic decision tree incredibly slow.
 
 = Prediction questions
