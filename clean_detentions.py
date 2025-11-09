@@ -221,6 +221,8 @@ def clean_detentions(d):
     # most of these values appear clean/normalized, but we could enrich the data with a "MSC" category
     # that is more general than the specific MSCs
 
+    d['Stay Book In Month'] = pd.Categorical(d[DetentionsColumns.STAY_BOOK_IN_DATE_TIME.column_name].dt.month_name(), categories=['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'], ordered=True)
+
 
 def combine_duplicate_ids(df):
     initial_rows = df.shape[0]

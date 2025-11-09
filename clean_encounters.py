@@ -119,6 +119,11 @@ def clean_gender(df):
     print("Rows after drop: %d" % rows_after)
     print("Removed %d rows with 'Unknown' gender" % rows_removed)
 
+def create_event_month(df):
+    print("="*40)
+    print("Creating 'Event Month' column")
+    df['Event Month'] = pd.Categorical(df['Event Date'].dt.month_name(), categories=['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'], ordered=True)
+
 def clean_encounters(df):
     print("="*40)
     print("Cleaning Encounters dataframe")
@@ -136,6 +141,7 @@ def clean_encounters(df):
     clean_processing_disposition(df)
     clean_responsible_site(df)
     clean_gender(df)
+    create_event_month(df)
 
 def combine_duplicate_ids(df):
     initial_rows = df.shape[0]

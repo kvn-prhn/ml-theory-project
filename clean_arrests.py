@@ -175,6 +175,8 @@ def clean_arrests(d):
     d[ArrestsColumns.APPREHENSION_SITE_LANDMARK.column_name] = d['repl_val']
     d = d.drop('repl_val', axis = 1).copy()
 
+    d['Apprehension Month'] = pd.Categorical(d[ArrestsColumns.APPREHENSION_DATE.column_name].dt.month_name(), categories=['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'], ordered=True)
+
 def combine_duplicate_ids(df):
     initial_rows = df.shape[0]
     arrest_counts = df['Unique Identifier'].value_counts()

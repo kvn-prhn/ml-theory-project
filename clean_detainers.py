@@ -193,6 +193,8 @@ def clean_detainers(detainers_df_clean):
     detainers_df_clean.drop('Prior Felony Yes No', axis=1, inplace=True)
     detainers_df_clean.drop('Violent Misdemeanor Yes No', axis=1, inplace=True)
 
+    detainers_df_clean['Apprehension Month'] = pd.Categorical(detainers_df_clean['Apprehension Date'].dt.month_name(), categories=['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'], ordered=True)
+
     # critical_field = ['Unique Identifier']
     # detainers_df_clean.dropna(subset=critical_field, inplace=True)
     # detainers_df_clean.drop_duplicates(inplace=True)
