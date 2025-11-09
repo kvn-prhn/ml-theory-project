@@ -1,6 +1,13 @@
 """
-Training accuracy: 0.9928
-Test accuracy: 0.8413
+RUN #1
+- features: 'Responsible AOR', 'Event Type', 'Final Program', 'Encounter Criminality', 'Birth Year', 'Citizenship Country', 'Gender', 'Days After Start'
+- test_train_split(stratify=y)
+- Training accuracy: 0.9928
+- Test accuracy: 0.8413
+
+todo:
+- try this after combining rows with the same id, and use # encounters as a feature
+- add encounter month (would be last encounter month)
 """
 
 from utils import log
