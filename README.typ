@@ -2,12 +2,6 @@
 #show link: underline
 
 /*
-TODO
-- cut category sizes down to ~10. otherwise it takes too long
-- Come up with list of questions
-- create derived variables
-  - detainers[entry date] - removals[departure date]
-
 For meeting 11/5/25
 - I noticed that in detainers we remove any columns with >75% missing data. In removals for example only 20% of the individuals are "removed" (deported) so it is expected that most of the data is missing. Want to confirm we aren't missing anything like that with a blanket remove >75%
 - Do other data sets have repeat unique IDs? if so, we need to decide how to collapse them. What i did for removals was to combine them and create a new column with the count. I keep only the most recent deportation. and the num deportations is actually a useful thing.
