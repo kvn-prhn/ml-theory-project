@@ -4,29 +4,30 @@ explanation and assumptions behind the cleaning
 """
 
 import pandas as pd
+from utils import log
 import clean_utils
 
 START_DATE = pd.to_datetime('2023-09-01 00:00:00')
 
 def cleanEventDate(df):
-    print("="*40)
-    print("Processing 'Event Date' column")
+    log("="*40)
+    log("Processing 'Event Date' column")
     event_dates = df['Event Date']
     rows_before = df.shape[0]
     valid_dates_mask = (pd.to_datetime('2023-9-1') <= event_dates) & (event_dates <= pd.to_datetime('2025-7-31'))
     invalid_count = (df.shape[0] - valid_dates_mask.sum())
-    print("dropping %d rows with invalid dates" % invalid_count)
+    log("dropping %d rows with invalid dates" % invalid_count)
     df.drop(df[~valid_dates_mask].index, inplace=True)
     df.reset_index(drop=True, inplace=True)
     rows_after = df.shape[0]
-    print("Rows before drop: %d" % rows_before)
-    print("Rows after drop: %d" % rows_after)
+    log("Rows before drop: %d" % rows_before)
+    log("Rows after drop: %d" % rows_after)
 
 def cleanResponsibleSite(df):
-    print("="*40)
-    print("Processing 'Responsible Site' column")
+    log("="*40)
+    log("Processing 'Responsible Site' column")
     responsible_site = df['Responsible Site']
-    print("%s unique values before cleaning" % responsible_site.nunique())
+    log("%s unique values before cleaning" % responsible_site.nunique())
     responsible_site.replace('SACRAMENTO, CA, SUB-OFFICE', 'ERO - Sacramento, CA Sub Office', inplace=True)
     responsible_site.replace('SAN BERNADINO, CA, SUB-OFFICE', 'ERO - San Bernardino, CA Sub Office', inplace=True)
     responsible_site.replace('SANTA ANA, CA, SUB-OFFICE', 'ERO - Santa Ana, CA Sub-Office', inplace=True)
@@ -41,92 +42,92 @@ def cleanResponsibleSite(df):
     responsible_site.replace('MEDFORD, OR, SUB-OFFICE', 'ERO - Medford, OR Sub Office', inplace=True)
     responsible_site.replace('BAKERSFIELD CA IHP', 'ERO - Bakersfield, CA IHP Sub Office', inplace=True)
     responsible_site.replace('RALEIGH/DURHAM, NC, SUB-OFFICE', 'ERO - Raleigh/Durham, NC Sub-Office', inplace=True)
-    print("%s unique values after cleaning" % responsible_site.nunique())
+    log("%s unique values after cleaning" % responsible_site.nunique())
 
 def cleanLeadSource(df):
-    print("="*40)
-    print("dropping Lead Source column")
+    log("="*40)
+    log("dropping Lead Source column")
     df.drop(columns='Lead Source', axis=1, inplace=True)
 
 def clean_lead_event_type(df):
-    print("="*40)
-    print("dropping 'Lead Event Type' column")
+    log("="*40)
+    log("dropping 'Lead Event Type' column")
     df.drop(columns='Lead Event Type', axis=1, inplace=True)
 
 def cleanFinalProgram(df):
-    print("="*40)
-    print("cleaning 'Final Program' column")
+    log("="*40)
+    log("cleaning 'Final Program' column")
     final_program = df['Final Program']
     final_program.replace('287g Task Force', '287G Program', inplace=True)
     final_program.replace('Joint Criminal Alien Response Team', 'Mobile Criminal Alien Team', inplace=True)
-    print("%d unique values after cleaning" % final_program.unique().size)
+    log("%d unique values after cleaning" % final_program.unique().size)
 
 def cleanCitizenshipCountry(df):
-    print("="*40)
-    print("cleaning 'Citizenship Country' column")
+    log("="*40)
+    log("cleaning 'Citizenship Country' column")
     citizenship_country = df['Citizenship Country']
     clean_utils.clean_countries(citizenship_country)
 
 def cleanEventLandmark(df):
-    print("="*40)
-    print("dropping 'Event Landmark' column")
+    log("="*40)
+    log("dropping 'Event Landmark' column")
     df.drop(columns='Event Landmark', axis=1, inplace=True)
 
 def clean_responsible_site(df):
-    print("="*40)
-    print("dropping 'Responsible Site' column. According to the cookbook: \n'We believe that this typically indicates the docket control office, \nwhich is a sub-office within an area of responsibility; we do not know \nmore details. Some discussion of docket control offices is available \nhere: https://www.ice.gov/doclib/foia/dro_policy_memos/09684drofieldpolicymanual.pdf.'.\n A lot of this information seems to be contained in the 'Responsible AOR' column")
+    log("="*40)
+    log("dropping 'Responsible Site' column. According to the cookbook: \n'We believe that this typically indicates the docket control office, \nwhich is a sub-office within an area of responsibility; we do not know \nmore details. Some discussion of docket control offices is available \nhere: https://www.ice.gov/doclib/foia/dro_policy_memos/09684drofieldpolicymanual.pdf.'.\n A lot of this information seems to be contained in the 'Responsible AOR' column")
     df.drop(columns='Responsible Site', axis=1, inplace=True)
 
 def clean_processing_disposition(df):
-    print("="*40)
-    print("dropping 'Processing Disposition' column. According to the \ncookbook, 'We are unsure how to understand the values in this field, \nespecially in relation to case category.'")
+    log("="*40)
+    log("dropping 'Processing Disposition' column. According to the \ncookbook, 'We are unsure how to understand the values in this field, \nespecially in relation to case category.'")
     df.drop(columns='Processing Disposition', axis=1, inplace=True)
 
 def create_deported_column(df):
-    print("Creating 'Deported' column")
+    log("Creating 'Deported' column")
     df['Deported'] = df['Departed Date'].notna()
 
 def clean_birth_year(df):
-    print("="*40)
-    print("Converting 'Birth Year' column to integer type")
+    log("="*40)
+    log("Converting 'Birth Year' column to integer type")
     df['Birth Year'] = df['Birth Year'].astype('Int16')
 
 def clean_responsible_aor(df):
-    print("="*40)
-    print("Cleaning 'Responsible AOR' column")
+    log("="*40)
+    log("Cleaning 'Responsible AOR' column")
     rows_before = df.shape[0]
     df.dropna(subset=['Responsible AOR'], inplace=True)
     df.reset_index(drop=True, inplace=True)
     rows_after = df.shape[0]
-    print("Rows before drop: %d" % rows_before)
-    print("Rows after drop: %d" % rows_after)
-    print("Dropped %d rows with missing 'Responsible AOR'" % (rows_before - rows_after))
+    log("Rows before drop: %d" % rows_before)
+    log("Rows after drop: %d" % rows_after)
+    log("Dropped %d rows with missing 'Responsible AOR'" % (rows_before - rows_after))
 
 def create_days_after_start(df):
-    print("="*40)
-    print("Creating 'Days After Start' column")
+    log("="*40)
+    log("Creating 'Days After Start' column")
     df['Days After Start'] = (df['Event Date'] - START_DATE).dt.days.astype('int32')
 
 def clean_gender(df):
-    print("="*40)
-    print("Cleaning 'Gender' Column")
+    log("="*40)
+    log("Cleaning 'Gender' Column")
     rows_before = df.shape[0]
     df.drop(df[df['Gender'] == 'Unknown'].index, inplace=True)
     df.reset_index(drop=True, inplace=True)
     rows_after = df.shape[0]
     rows_removed = rows_before - rows_after
-    print("Rows before drop: %d" % rows_before)
-    print("Rows after drop: %d" % rows_after)
-    print("Removed %d rows with 'Unknown' gender" % rows_removed)
+    log("Rows before drop: %d" % rows_before)
+    log("Rows after drop: %d" % rows_after)
+    log("Removed %d rows with 'Unknown' gender" % rows_removed)
 
 def create_event_month(df):
-    print("="*40)
-    print("Creating 'Event Month' column")
+    log("="*40)
+    log("Creating 'Event Month' column")
     df['Event Month'] = pd.Categorical(df['Event Date'].dt.month_name(), categories=['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'], ordered=True)
 
 def clean_encounters(df):
-    print("="*40)
-    print("Cleaning Encounters dataframe")
+    log("="*40)
+    log("Cleaning Encounters dataframe")
     cleanEventLandmark(df)
     cleanLeadSource(df)
     cleanEventDate(df)
@@ -151,5 +152,5 @@ def combine_duplicate_ids(df):
     df.drop_duplicates(subset='Unique Identifier', keep='first', inplace=True)
     df.reset_index(drop=True, inplace=True)
     rows_removed = initial_rows - df.shape[0]
-    print("Removed %d duplicate rows, keeping only most recent encounter per individual" % rows_removed)
-    print("Dataframe now has %d rows" % df.shape[0])
+    log("Removed %d duplicate rows, keeping only most recent encounter per individual" % rows_removed)
+    log("Dataframe now has %d rows" % df.shape[0])
