@@ -91,6 +91,13 @@ def clean_birth_year(df):
     log("="*40)
     log("Converting 'Birth Year' column to integer type")
     df['Birth Year'] = df['Birth Year'].astype('Int16')
+    rows_before = df.shape[0]
+    df.dropna(subset=['Birth Year'], inplace=True)
+    df.reset_index(drop=True, inplace=True)
+    rows_after = df.shape[0]
+    log("Rows before drop: %d" % rows_before)
+    log("Rows after drop: %d" % rows_after)
+    log("Dropped %d rows with missing 'Birth Year'" % (rows_before - rows_after))
 
 def clean_responsible_aor(df):
     log("="*40)
