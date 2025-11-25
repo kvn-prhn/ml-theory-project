@@ -46,5 +46,3 @@ This makes me have less faith in the validity of this column.
 
 - One strong predictor of whether an encounter leads to a deportation is the encounter date, and if that date is right before the end of the data collection period. i.e., they were encountered right before the last day of data collection.
 - Trying to create a dummy variable for each of 100s of categorical varibles made training a basic decision tree incredibly slow.
-
-= Prediction questions
