@@ -33,6 +33,7 @@ Supervised classification:
 - `encounters_random_forest_analyze.py`
 - `encounters_logistic_regression_train.py`
 - `encounters_logistic_regression_analyze.py`
+- `notebooks/bag_knn_classify_deport_criminality.ipynb`
 
 Supervised regression
 - `subsequent_removal_train.py`
@@ -40,6 +41,10 @@ Supervised regression
 - `subsequent_removal_forest_analyze.py`
 - `subsequent_removal_lasso_analyze.py`
 - `subsequent_removal_grad_boost_analyze.py`
+
+Unsupervised Learning
+- `notebooks/rule_association_mining.ipynb`
+- `notebooks/unsupervised.ipynb`
 
 # Data overview
 
