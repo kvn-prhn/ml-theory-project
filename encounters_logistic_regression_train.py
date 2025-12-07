@@ -1,10 +1,6 @@
 """
 logistic regression sklearn api: https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html#sklearn.linear_model.LogisticRegression
 
-todo
-- train logistic regression
-- regularize
-
 could do
 - fancy plot of regularization: https://scikit-learn.org/stable/auto_examples/linear_model/plot_logistic_path.html#sphx-glr-auto-examples-linear-model-plot-logistic-path-py
 

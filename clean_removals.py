@@ -1,5 +1,6 @@
 import pandas as pd
 import clean_utils
+from utils import log
 
 def clean_departed_date(df):
     """
@@ -238,7 +239,40 @@ def clean_latest_person_departed_date(df):
     # latest_person_departed_date = df['Latest Person Departed Date']
     # clean_utils.summarize_ordinal_column(latest_person_departed_date)
 
-def combine_duplicate_ids(df):
+def combine_duplicate_ids_duration(df):
+    """
+    Combine rows with duplicate id. Keep only the first entry as sorted by "Departed Date". Create a new column which is the number of days between the first and second row with the same ID called "Days Until Subsequent Removal". Any rows after the first two are removed and not used in any calculation.
+    """
+    initial_rows = df.shape[0]
+    unique_identifier = df['Unique Identifier']
+    duplicates = unique_identifier.duplicated(keep='first').sum()
+    log("Found %d rows with duplicate unique identifiers" % duplicates)
+
+    # Sort by Departed Date in ascending order (earliest first)
+    df.sort_values('Departed Date', ascending=True, inplace=True)
+    df.reset_index(drop=True, inplace=True)
+
+    # For each unique identifier, calculate days until subsequent removal
+    # Use shift to get the next departure date for the same identifier (vectorized)
+    df['Next Departed Date'] = df.groupby('Unique Identifier')['Departed Date'].shift(-1)
+    df['Days Until Subsequent Removal'] = (df['Next Departed Date'] - df['Departed Date']).dt.days
+    df.drop(columns='Next Departed Date', inplace=True)
+
+    log("Created 'Days Until Subsequent Removal' column")
+
+    rows_before_filter = df.shape[0]
+    df.dropna(subset=['Days Until Subsequent Removal'], inplace=True)
+    df.reset_index(drop=True, inplace=True)
+    rows_filtered = rows_before_filter - df.shape[0]
+    log("Removed %d rows with only one removal" % rows_filtered)
+
+    # Keep only the first occurrence of each unique identifier
+    df.drop_duplicates(subset='Unique Identifier', keep='first', inplace=True)
+    df.reset_index(drop=True, inplace=True)
+
+    log("%d rows" % df.shape[0])
+
+def combine_duplicate_ids_count(df):
     """
     Keep only the latest entry for each unique identifier. If an individual
     appears multiple times, it means they were deported multiple times, so
@@ -253,7 +287,7 @@ def combine_duplicate_ids(df):
     # Count the number of removals for each unique identifier
     removal_counts = unique_identifier.value_counts()
     df['Num Removals'] = df['Unique Identifier'].map(removal_counts)
-    print("Created 'Num Removals' column with %d total removals tracked" % df['Num Removals'].sum())
+    print("Created 'Num Removals' column")
 
     # Sort by Departed Date in descending order (most recent first)
     # Then drop duplicates, keeping the first (most recent) occurrence

@@ -29,7 +29,7 @@ if __name__ == "__main__":
     encounters_df = pd.read_parquet(INPUT_DIR + ENCOUNTERS_FILENAME)
     removals_df = pd.read_parquet(INPUT_DIR + REMOVALS_FILENAME)
 
-    clean_removals.combine_duplicate_ids(removals_df)
+    clean_removals.combine_duplicate_ids_count(removals_df)
     clean_arrests.combine_duplicate_ids(arrests_df)
     clean_detainers.combine_duplicate_ids(detainers_df)
     clean_detentions.combine_duplicate_ids(detentions_df)

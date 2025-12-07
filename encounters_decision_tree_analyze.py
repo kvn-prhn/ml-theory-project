@@ -21,6 +21,7 @@ y_test = joblib.load(y_test_path)
 
 log(f"Test accuracy: {model.score(X_test, y_test):.4f}")
 
+# note: I took these scores then added the gini scores from the same one-hot-encodings by hand
 log("Overall Feature GINI Scores")
 importances = model.feature_importances_
 sorted_indices = np.argsort(importances)[::-1]

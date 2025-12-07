@@ -19,8 +19,9 @@ def summarize_ordinal_column(column):
     print("column type: %s" % column.dtype)
     print("%d missing values" % num_missing)
     print("%f%% missing values" % missing_pct)
+    print("%d non-missing values" % (len(column) - num_missing))
     print("maximum value: %s" % column.max())
-    print("maximum value: %s" % column.min())
+    print("minimum value: %s" % column.min())
 
 def clean_countries(country_column):
     """
