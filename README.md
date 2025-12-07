@@ -1,7 +1,4 @@
-#show link: set text(fill: blue)
-#show link: underline
-
-= Resources
+# Resources
 - [Deportation Data Project](https://deportationdata.org/)
 - [ICE data](https://deportationdata.org/data/ice.html)
 - [ICE data Documentation](https://deportationdata.org/docs/ice.html#codebook)
@@ -9,13 +6,44 @@
 - [Frequently Asked Questions](https://deportationdata.org/docs/ice.html#sec-faq)
 - [A Close Look at ICE Arrest Data from the Deportation Data Project (Part 1)](https://austinkocher.substack.com/p/a-close-look-at-ice-arrest-data-from). Austin Kocher. Blog post background of the dataset
 
-= Setup
+# Setup
 - Download the 5 raw Excel files from https://deportationdata.org/data/ice.html
 - Place them in a directory named ice_data in the root of this repository
 
-= Data overview
+# Repository Structure
+Data structure
+- `arrests_columns.py`
+- `detainers_columns.py`
+- `detentions_columns.py`
+- `encounters_columns.py`
+- `removals_columns.py`
 
-== ENCOUNTERS
+Data cleaning
+- `clean_arrests.py`
+- `clean_detainers.py`
+- `clean_detentions.py`
+- `clean_encounters.py`
+- `clean_removals.py`
+- `clean_all.py`
+
+Supervised classification:
+- `encounters_decision_tree_train.py`
+- `encounters_decision_tree_analyze.py`
+- `encounters_random_forest_train.py`
+- `encounters_random_forest_analyze.py`
+- `encounters_logistic_regression_train.py`
+- `encounters_logistic_regression_analyze.py`
+
+Supervised regression
+- `subsequent_removal_train.py`
+- `subsequent_removal_tree_analyze.py`
+- `subsequent_removal_forest_analyze.py`
+- `subsequent_removal_lasso_analyze.py`
+- `subsequent_removal_grad_boost_analyze.py`
+
+# Data overview
+
+## ENCOUNTERS
 
 Records every time ICE Enforcement and Removal Operations encounters a person, i.e. considers whether to take enforcement action against a person.  This need not mean a physical encounter. Most notably, every time ICE processes a match between FBI book-in information (i.e. to a jail or prison) and ICE database information, that match is logged as an ICE encounter.  Generally, if an individual appears in the detainers or arrests table, that individual should appear in this table. An individual might appear in the removals or detentions tables without appearing in the encounters data if Customs and Border Protection initially encounters the person. This is both the largest and the sparsest of the tables, and in many cases, encounters lack a unique ID because the individual lacked an A number (A numbers are generally only given to people with immigrant visas or when they are processed for deportation proceedings).
 
@@ -29,20 +57,7 @@ Notes:
 
 by "subset" I mean if the other columns value is non-null this one is too
 
-= Examples of Bad Data
-
-The unique ID `e324d5dceb0f735544c0757b983433458ef7b707` is the most common in the encounters dataset, appearing 45 times. In each occurence, the birthyear, citizenship, and gender are the same. However, the encounter criminality is inconsistent:
-
-```txt
-Encounter Criminality
-2 Pending Criminal Charges      21
-1 Convicted Criminal            12
-3 Other Immigration Violator    12
-```
-
-This makes me have less faith in the validity of this column.
-
-= Observations
+# Observations
 
 - One strong predictor of whether an encounter leads to a deportation is the encounter date, and if that date is right before the end of the data collection period. i.e., they were encountered right before the last day of data collection.
 - Trying to create a dummy variable for each of 100s of categorical varibles made training a basic decision tree incredibly slow.
